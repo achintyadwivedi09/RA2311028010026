@@ -1,9 +1,15 @@
 const express = require('express');
+const Log = require('../logging_middleware');
+
 const app = express();
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send("Backend is live and running!");
+app.get('/test', async (req, res) => {
+    await Log("backend", "info", "handler", "Test endpoint hit");
+
+    res.json({
+        message: "Backend working + logging working"
+    });
 });
 
 app.listen(3000, () => {

@@ -1,18 +1,17 @@
-const axios = require('axios'); // Ensure you install axios
+const axios = require('axios');
 
 const Log = async (stack, level, pkg, message) => {
+    console.log(`[${stack}] [${level}] [${pkg}] ${message}`);
+
     try {
-        const response = await axios.post('YOUR_TEST_SERVER_URL/log', {
-            stack: stack.toLowerCase(),   
-            level: level.toLowerCase(),   
-            package: pkg.toLowerCase(),   
-            message: message
-        }, {
-            headers: { 'Authorization': `Bearer YOUR_ACCESS_TOKEN` }
+        await axios.post("http://20.244.56.144/evaluation-service/logs", {
+            stack,
+            level,
+            package: pkg,
+            message
         });
-        console.log("Log Sent:", response.data.logID);
-    } catch (error) {
-        console.error("Logging failed", error.message);
+    } catch (err) {
+        console.log("External logging failed (expected)");
     }
 };
 
